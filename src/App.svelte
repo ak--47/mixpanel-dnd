@@ -1,24 +1,26 @@
 <script>
-  import Counter from "./components/Counter.svelte";
   import Ping from "./components/Ping.svelte";
+  import Nav from "./components/Nav.svelte";
+  import Sidebar from "./components/Sidebar.svelte";
 </script>
 
-<main data-theme="dark" class="contain mx-auto">
-  <!-- SERVICE COMPONETS -->
+<link href="/apercu-bold-pro.woff2" rel="stylesheet">
+
+
+<main class="contain mx-auto">
+  <!-- SERVICE COMPONENTS -->
   <Ping />
-  <div class="container mx-auto p-20 mt-10  bg-slate-500">
-	<h1 class="right-4">Mixpanel: Drag and Drop</h1>
-  
 
   <!-- NAV -->
+  <Nav />
 
-  <!-- UI COMPONENTS -->
-  <Counter />
+  <!-- SIDEBAR -->
+  <!-- <Sidebar /> -->
 
-  <p>off to the races</p>
-</div>
+  <!-- <div class="container mx-auto p-20 mt-10 bg-slate-500">
+    <p>i am content</p>
+  </div> -->
 </main>
 
 <style>
-
 </style>

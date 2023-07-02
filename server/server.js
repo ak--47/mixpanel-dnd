@@ -5,7 +5,7 @@ import bunyan from "bunyan";
 const log = bunyan.createLogger({name: "mixpanel-dnd", level: "info"});
 
 const app = Fastify({
-	logger: log,
+	logger: true,
 });
 
 // STATIC ASSETS
