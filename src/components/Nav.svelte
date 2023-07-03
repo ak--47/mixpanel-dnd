@@ -34,7 +34,7 @@
         <a href={"#"} class={navItemStyle} on:click={setView}>Load</a>
       </li>
     </ul>
-    <a href={"#"} class="flex items-center ml-[75%] opacity-50 hover:opacity-100">
+    <a href={"https://www.youtube.com/watch?v=a3Z7zEc7AXQ"} class="inline-flex flex-nowrap ml-auto pr-10 items-center opacity-50 hover:opacity-100">
       <MpHelp />
     </a>
   </div>

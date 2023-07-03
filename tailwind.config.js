@@ -14,7 +14,8 @@ export default {
 				mpGreen: "#219464",
 				mpWhite: "rgb(233, 233, 233)",
 				mpGray: "#3d4451",
-				mpPrimary: "#7856FF"
+				mpPrimary: "#7856FF",
+				mpLite: "#8F8F91"
 				
 			},
 		},

@@ -9,15 +9,25 @@
   import Load from "./components/Load.svelte";
   import { view } from "./store.js";
 
-  let currentView = "project";
-
   //   simple view router
-  view.subscribe((value) => (currentView = value));
+  let currentView;
+  view.subscribe((value) => {
+    if (value) {
+      currentView = value;
+      localStorage.setItem("lastView", value);
+    }
+  });
+
+    if (localStorage.getItem("lastView")) {
+      currentView = localStorage.getItem("lastView");
+    } else {
+      currentView = "project";
+    }
 </script>
 
 <link href="/apercu-bold-pro.woff2" rel="stylesheet" />
 
-<main class="container mx-auto bg-mpWhite">
+<main class="container mx-auto bg-mpWhite overflow-auto">
   <!-- SERVICE COMPONENTS -->
   <Ping />
 

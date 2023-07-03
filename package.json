@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "@fastify/static": "^6.10.2",
+    "ak-tools": "^1.0.43",
     "bunyan": "^1.8.15",
     "fastify": "^4.19.0",
-    "got": "^13.0.0"
+    "got": "^13.0.0",
+    "svelte-file-dropzone": "^2.0.1"
   }
 }

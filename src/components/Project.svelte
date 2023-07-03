@@ -5,6 +5,10 @@
   export let region = "US";
   let status = ``;
 
+  function init() {
+    getCreds();
+  }
+
   async function verifyCreds() {
     if (token === "" || secret === "") {
       status = `please enter a project token AND secret`;
@@ -17,7 +21,7 @@
           headers: new Headers({
             "Content-Type": "application/json",
           }),
-          // @ts-ignore
+          // @ts-ignore ... but why??
           body: JSON.stringify(creds),
         });
         const res = await req.json();
@@ -58,7 +62,8 @@
   }
 
   const inputFieldStyles = `input w-full max-w-xs bg-white text-mpPurple text-sm`;
-  getCreds();
+
+  init();
 </script>
 
 <div class="title ml-6 pt-4 text-mpGray">Project Info</div>
@@ -72,7 +77,7 @@
   </select>
   <div class="flex flex-row space-x-4">
     <button class="rounded-lg btn btn-primary w-fit bg-mpPurple border-mpPurple" on:click={verifyCreds}>Verify</button>
-    <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetCreds}>Reset</button>
+    <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetCreds}>Clear</button>
   </div>
 
   <p id="status">{status}</p>
