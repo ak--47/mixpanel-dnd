@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+* {
+	font-family: "Apercu Pro", "Helvetica Neue", Helvetica, Tahoma, Geneva,
+      Arial, sans-serif;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-optical-sizing: auto;
+	font-style: normal;
+    font-variant-alternates: normal;
+    font-variant-caps: normal;
+    font-variant-east-asian: normal;
+    font-variant-ligatures: none;
+    font-variant-numeric: normal;
+    font-variation-settings: normal;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+}
