@@ -1,32 +1,42 @@
 <script>
   import Dropzone from "svelte-file-dropzone/Dropzone.svelte";
-  import { format as formatStore, files as filesStore } from "../store.js";
-  import u from "ak-tools";
+  import { format as formatStore, files as filesStore, dataSippet as dataSnippetStore } from "../store.js";
+  import { bytesHuman, comma } from "ak-tools";
 
+  const tableRow = `bg-white border-b opacity-50 hover:opacity-100`;
+  const tableHead = `px-6 py-4 font-medium text-gray-900 whitespace-nowrap`;
   let files;
   let format;
+  //   let dataSnippet;
 
-  $: if (files) {
-    // guess format
-    format = files[0].name.split(".").pop();
+  async function handleUpdate() {
+    if (files) {
+      //detect the file format
+      format = files[0].name.split(".").pop();
+      formatStore.set(format);
 
-    //store the file + format
-    formatStore.set(format);
-    filesStore.update((currentFiles) => [...currentFiles, ...files]);
-
-    //read the first file
-    const reader = new FileReader();
-    reader.readAsText(files[0], "UTF-8");
-    reader.onload = function (evt) {
-      //this is all the data in the FIRST file
-      //todo: transformer needs this
-      evt.target.result;
-    };
+      //read each file
+      for (const file of files) {
+        const data = await readFile(file);
+        file.lines = data.split("\n").length;
+        dataSnippetStore.set(data);
+      }
+      filesStore.update((currentFiles) => [...currentFiles, ...files]);
+    }
   }
 
   function resetFiles() {
     filesStore.update((currentFiles) => []);
     return true;
+  }
+
+  async function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => resolve(event.target.result.toString());
+      reader.onerror = reject;
+      reader.readAsText(file, "UTF-8");
+    });
   }
 
   //   https://stackoverflow.com/a/28318964
@@ -80,7 +90,8 @@
         <span class="text-blue-600 underline">browse</span>
       </span>
     </span>
-    <input type="file" name="file_upload" class="hidden" multiple bind:files />
+    <!-- FILE PICKER -->
+    <input type="file" name="file_upload" class="hidden" multiple bind:files on:change={handleUpdate} />
   </label>
 </div>
 
@@ -93,21 +104,23 @@
   </div>
   <div class="title ml-6 pt-4 text-mpGray">File Details</div>
 
-  <div class="overflow-x-auto w-1/2 ml-6 pb-24 px-5">
-    <table class="table">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg ml-10 mt-5 p-10 px-5 py-5 w-2/3 bg-white">
+    <table class="w-full text-sm text-left text-mpGray">
       <thead class="text-mpPurple text-base">
         <tr>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Type</th>
+          <th class="px-6 py-4">Name</th>
+          <th class="px-6 py-4">Size</th>
+          <th class="px-6 py-4">Type</th>
+          <th class="px-6 py-4"> Lines</th>
         </tr>
       </thead>
       <tbody>
         {#each $filesStore as file}
-          <tr class="text-mpLite text-sm font-light">
-            <td>{file.name}</td>
-            <td>{u.bytesHuman(file.size)}</td>
-            <td>{file.name.split(".").pop()}</td>
+          <tr class={tableRow}>
+            <td class="px-6 py-4">{file.name}</td>
+            <td class="px-6 py-4">{bytesHuman(file.size)}</td>
+            <td class="px-6 py-4">{file.name.split(".").pop()}</td>
+            <td class="px-6 py-4">{comma(file.lines || 0)}</td>
           </tr>
           <!-- <li class="text-mpGreen text-xs"> : </li> -->
         {/each}

@@ -1,8 +1,9 @@
 <script>
-  import { token as tokenStore, secret as secretStore, region as regionStore } from "../store.js";
+  import { token as tokenStore, secret as secretStore, region as regionStore, dataType as dataTypeStore } from "../store.js";
   export let token = "";
   export let secret = "";
   export let region = "US";
+  export let dataType = "event";
   let status = ``;
 
   function init() {
@@ -18,9 +19,7 @@
       try {
         const req = await fetch("/verify", {
           method: "POST",
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
+          headers: new Headers({ "Content-Type": "application/json" }),
           // @ts-ignore ... but why??
           body: JSON.stringify(creds),
         });
@@ -38,10 +37,13 @@
     localStorage.setItem("token", token);
     localStorage.setItem("secret", secret);
     localStorage.setItem("region", region);
+    localStorage.setItem("dataType", dataType);
+
     //save to store
     tokenStore.set(token);
     secretStore.set(secret);
     regionStore.set(region);
+    dataTypeStore.set(dataType);
   }
 
   function getCreds() {
@@ -49,6 +51,8 @@
     if (localStorage.getItem("token")) token = localStorage.getItem("token");
     if (localStorage.getItem("secret")) secret = localStorage.getItem("secret");
     if (localStorage.getItem("region")) region = localStorage.getItem("region");
+    if (localStorage.getItem("dataType")) dataType = localStorage.getItem("dataType");
+    if (token || secret) saveCreds();
   }
 
   function resetCreds() {
@@ -67,18 +71,29 @@
 </script>
 
 <div class="title ml-6 pt-4 text-mpGray">Project Info</div>
-<div class="flex justify-center flex-col p-10 space-y-4" id="project">
-  <input type="text" id="token" bind:value={token} placeholder="project token" class={inputFieldStyles} />
-  <input type="text" id="sceret" bind:value={secret} placeholder="project secret" class={inputFieldStyles} />
-  <select class="select w-full max-w-xs bg-white border-white" bind:value={region}>
-    <option disabled selected>Data Residency</option>
-    <option value="US">🇺🇸 United States</option>
-    <option value="EU">🇪🇺 European Union</option>
-  </select>
-  <div class="flex flex-row space-x-4">
-    <button class="rounded-lg btn btn-primary w-fit bg-mpPurple border-mpPurple" on:click={verifyCreds}>Verify</button>
-    <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetCreds}>Clear</button>
+<div class="flex flex-row space-x-10 mt-5" id="project">
+  <div class="flex flex-col space-y-2 w-1/5">
+    <input type="text" id="token" bind:value={token} placeholder="project token" class={inputFieldStyles} />
+    <input type="text" id="sceret" bind:value={secret} placeholder="project secret" class={inputFieldStyles} />
   </div>
-
-  <p id="status">{status}</p>
+  <div class="flex flex-col space-y-2 w-1/6">
+    <select class="select w-full max-w-xs bg-white border-white text-mpGray" bind:value={region}>
+      <option disabled selected>Data Residency</option>
+      <option value="US">🇺🇸 United States</option>
+      <option value="EU">🇪🇺 European Union</option>
+    </select>
+    <select class="select w-full max-w-xs bg-white border-white text-mpGray" bind:value={dataType}>
+      <option disabled selected>Data Type</option>
+      <option value="event">🚀 events</option>
+      <option value="user">👥 user profiles</option>
+      <option value="group">🏢 group profiles</option>
+    </select>
+  </div>
 </div>
+
+<div class="flex flex-row space-x-2 mt-5">
+  <button class="rounded-lg btn btn-primary w-fit bg-mpPurple border-mpPurple" on:click={verifyCreds}>Verify</button>
+  <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetCreds}>Clear</button>
+</div>
+
+<p id="status" class="mt-3">{status}</p>
