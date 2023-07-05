@@ -17,13 +17,13 @@ export default {
 				mpPrimary: "#7856FF",
 				mpLite: "#8F8F91"
 				
+				
 			},
 		},
 	},
 	plugins: [require("daisyui")],
 	daisyui: {
-		themes: [
-			"light",
+		themes: [		
 			"dark"			
 		],
 	},
