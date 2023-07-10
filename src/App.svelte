@@ -3,13 +3,13 @@
 
   //   VIEWS
   import Nav from "./views/Nav.svelte";
-  import Project from "./views/Project.svelte";
+  import Project from "./views/components/Project.svelte";
   import Upload from "./views/Upload.svelte";
   import Transform from "./views/Transform.svelte";
   import Load from "./views/Load.svelte";
   import { view } from "./store.js";
 
-  let viewOrder = ["project", "upload", "transform", "load"];
+  let viewOrder = ["upload", "transform", "load"];
 
   //   simple view router
   let currentView;
@@ -23,7 +23,7 @@
   if (localStorage.getItem("lastView")) {
     currentView = localStorage.getItem("lastView");
   } else {
-    currentView = "project";
+    currentView = "upload";
   }
 
   function forward() {
@@ -55,9 +55,6 @@
   <!-- CANVAS -->
   <!-- ? https://svelte.dev/tutorial/writable-stores -->
   <div class="container block bg-mpWhite mx-auto ml-14">
-    {#if currentView === "project"}
-      <Project />
-    {/if}
     {#if currentView === "upload"}
       <Upload />
     {/if}
@@ -68,8 +65,8 @@
       <Load />
     {/if}
     <div id="controls">
-      <button class="btn bg-mpGray border-mpGray" on:click={back}>←</button>
-      <button class="btn bg-mpGray border-mpGray" on:click={forward}>→</button>
+      <button class="btn bg-mpWhite border-none text-base px-2 py-2 ml-6" on:click={back}>←</button>
+      <button class="btn bg-mpWhite border-none text-base px-2 py-2" on:click={forward}>→</button>
     </div>
   </div>
 </main>

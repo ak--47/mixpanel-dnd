@@ -7,6 +7,8 @@ export const region = writable('US');
 export const format = writable('json');
 export const dataType = writable('');
 export const files = writable([]);
+export const aliases = writable({});
+export const transformType = writable('');
 
 /**
  * @type {import('svelte/store').Writable<{[key: string]: any}>}

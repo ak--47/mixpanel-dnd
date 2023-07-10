@@ -1,12 +1,23 @@
 <script>
-  import { token as tokenStore, secret as secretStore, region as regionStore, format as formatStore, files as filesStore, dataType as dataTypeStore } from "../store.js";
+  import {
+    token as tokenStore,
+    secret as secretStore,
+    region as regionStore,
+    format as formatStore,
+    files as filesStore,
+    dataType as dataTypeStore,
+	aliases as aliasesStore
+  } from "../store.js";
+  import Project from "./components/Project.svelte";
   import { truncate, comma, bytesHuman } from "ak-tools";
   const tableRow = `bg-white border-b opacity-50 hover:opacity-100`;
-  const tableHead = `px-6 py-4 font-medium text-gray-900 whitespace-nowrap`
+  const tableHead = `px-6 py-4 font-medium text-gray-900 whitespace-nowrap`;
 </script>
 
+<Project />
 <div class="title ml-6 pt-4 text-mpGray">Data Loader</div>
 <div class="flex justify-center flex-col p-10 space-y-4">
+
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-2/3">
     <table class="w-full text-sm text-left text-gray-500">
       <tbody>
@@ -27,6 +38,10 @@
           <th scope="row" class={tableHead}> Format </th>
           <td class="px-6 py-4"> {$formatStore || "------"} </td>
         </tr>
+		<tr class={tableRow}>
+			<th scope="row" class={tableHead}> Transform </th>
+			<td class="px-6 py-4"> {JSON.stringify($aliasesStore) || "------"} </td>
+		  </tr>
         <tr class={tableRow}>
           <th scope="row" class={tableHead}> Type </th>
           <td class="px-6 py-4"> {$dataTypeStore || "------"} </td>

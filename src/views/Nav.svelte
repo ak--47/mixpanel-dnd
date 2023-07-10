@@ -20,11 +20,8 @@
     </a>
 
     <ul class="flex flex-row ml-4 items-start">
-      <li id="project">
-        <a href={"#"} class={navItemStyle} on:click={setView}>Project</a>
-      </li>
       <li id="upload">
-        <a href={"#"} class={navItemStyle} on:click={setView}>Upload</a>
+        <a href={"#"} class={navItemStyle} on:click={setView}>Extract</a>
       </li>
 
       <li id="transform">
