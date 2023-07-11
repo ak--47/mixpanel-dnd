@@ -1,37 +1,27 @@
 <script>
-  // todo: publish to parent
-  // ? https://svelte.dev/repl/24adfb0a93734265952e2870155aeb49?version=3.43.1
-  import { dataSnippet, dataType, aliases } from "../../store.js";
-  import { cleanObj } from "ak-tools";
-  const selector = `select w-full max-w-xs bg-white border-white text-mpGray select w-full max-w-xs bg-white border-white text-mpGray opacity-50`;
+  import { dataType, aliases } from "../../store.js";
   export let data;
-  let eventNameEl;
-  let eventNameAlias;
-  let distinctIdEl;
-  let distinctIdAlias;
-  let timeEl;
-  let timeAlias;
-  let insertIdEl;
-  let insertIdAlias;
-  let nameEl;
-  let nameAlias;
-  let emailEl;
-  let emailAlias;
-  let createdAtEl;
-  let createdAtAlias;
-  let groupIdEl;
-  let groupIdAlias;
-  let groupKeyEl;
-  let groupKeyAlias;
+  let customInput = false; //todo: remember last value
+    //oops, this is a bit of a mess
+  let eventNameAlias = $aliases?.event || "";
+  let distinctIdAlias = $aliases?.distinct_id || "";
+  let timeAlias = $aliases?.time || "";
+  let insertIdAlias = $aliases?.insert_id || "";
+  let nameAlias = $aliases?.name || "";
+  let emailAlias = $aliases?.email || "";
+  let createdAtAlias = $aliases?.createdAt || "";
+  let groupIdAlias = $aliases?.groupId || "";
+  let groupKeyAlias = $aliases?.groupKey || "";
   let colHeaders = [];
-  //oops, this is a bit of a mess
   if (data && data[0] !== "no data") {
     colHeaders = Array.from(new Set(data.map(Object.keys).flat()));
   }
 
-  $: aliases.set(getMappings());
-  $: if (eventNameAlias || distinctIdAlias || timeAlias || insertIdAlias || nameAlias || emailAlias || createdAtAlias || groupIdAlias || groupKeyAlias) {
-    aliases.set(getMappings());
+  // when any dropdown is selected, update mappings
+  $: {
+    if (eventNameAlias || distinctIdAlias || timeAlias || insertIdAlias || nameAlias || emailAlias || createdAtAlias || groupIdAlias || groupKeyAlias) {
+      aliases.set(getMappings());
+    }
   }
 
   function getMappings() {
@@ -62,26 +52,40 @@
 
     return obj;
   }
+
+  const selector = `select w-full max-w-xs bg-white border-white text-mpGray opacity-50`;
+  const writeIn = `input w-full max-w-xs bg-white text-mpPurple text-sm text-mpPurple`;
+  const labels = `block w-[20vw]`;
 </script>
 
 {#if $dataType === "event"}
   <div id="events">
     <div class="flex flex-col space-y-4 ml-10 mr-10">
-      <div class="flex flex-row space-x-4">
+      <div class="flex flex-row space-x-4 basis-1/2">
         <div>
-          <label for="eventName" class="relative">Event Name Field</label>
-          <select id="eventName" bind:value={eventNameAlias} bind:this={eventNameEl} class={selector} required>
-            <option disabled selected value="">event name field</option>
-            {#each colHeaders as header}
-              <option value={header}>{header}</option>
-            {/each}
-          </select>
+          <label class={labels} for="eventName"
+            >Event Name Field <button
+              on:click={() => {
+                customInput = !customInput;
+              }}>✏️</button
+            ></label
+          >
+          {#if customInput}
+            <input id="eventName" bind:value={eventNameAlias} placeholder="write a value" class={writeIn} required />
+          {:else}
+            <select id="eventName" bind:value={eventNameAlias} class={selector} required>
+              <option disabled selected value="">event name</option>
+              {#each colHeaders as header}
+                <option value={header}>{header}</option>
+              {/each}
+            </select>
+          {/if}
         </div>
 
         <div>
-          <label for="distinctId">Distinct Id Field</label>
-          <select id="distinctId" bind:value={distinctIdAlias} bind:this={distinctIdEl} class={selector} required>
-            <option disabled selected value="">distinct_id field</option>
+          <label class={labels} for="distinctId">Distinct Id Field</label>
+          <select id="distinctId" bind:value={distinctIdAlias} class={selector} required>
+            <option disabled selected value="">distinct_id</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -89,20 +93,21 @@
         </div>
       </div>
 
-      <div class="flex flex-row space-x-4">
+      <div class="flex flex-row space-x-4 basis-1/2">
         <div>
-          <label for="time">Time Field</label>
-          <select id="time" bind:value={timeAlias} bind:this={timeEl} class={selector} required>
-            <option disabled selected value="">time name field</option>
+          <label class={labels} for="time">Time Field</label>
+          <select id="time" bind:value={timeAlias} class={selector} required>
+            <option disabled selected value="">time</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
           </select>
         </div>
+
         <div>
-          <label for="insertId">Insert Id Field</label>
-          <select id="insertId" bind:value={insertIdAlias} bind:this={insertIdEl} class={selector}>
-            <option disabled selected value="">$insert_id field</option>
+          <label class={labels} for="insertId">Insert Id Field</label>
+          <select id="insertId" bind:value={insertIdAlias} class={selector}>
+            <option disabled selected value="">$insert_id</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -118,9 +123,9 @@
     <div class="flex flex-col space-y-4 ml-10 mr-10">
       <div class="flex flex-row space-x-4">
         <div>
-          <label for="distinctId">Distinct Id Field</label>
-          <select id="distinctId" bind:value={distinctIdAlias} bind:this={distinctIdEl} class={selector} required>
-            <option disabled selected value="">$distinct_id field</option>
+          <label class={labels} for="distinctId">Distinct Id Field</label>
+          <select id="distinctId" bind:value={distinctIdAlias} class={selector} required>
+            <option disabled selected value="">$distinct_id</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -128,9 +133,9 @@
         </div>
 
         <div>
-          <label for="createdAt">Created At Field</label>
-          <select id="createdAt" bind:value={createdAtAlias} bind:this={createdAtEl} class={selector}>
-            <option disabled selected value="">$created field</option>
+          <label class={labels} for="createdAt">Created At Field</label>
+          <select id="createdAt" bind:value={createdAtAlias} class={selector}>
+            <option disabled selected value="">$created</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -139,9 +144,9 @@
       </div>
       <div class="flex flex-row space-x-4">
         <div>
-          <label for="name">Name Field</label>
-          <select id="name" bind:value={nameAlias} bind:this={nameEl} class={selector}>
-            <option disabled selected value="">$name field</option>
+          <label class={labels} for="name">Name Field</label>
+          <select id="name" bind:value={nameAlias} class={selector}>
+            <option disabled selected value="">$name</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -149,9 +154,9 @@
         </div>
 
         <div>
-          <label for="email">Email Field</label>
-          <select id="email" bind:value={emailAlias} bind:this={emailEl} class={selector}>
-            <option disabled selected value="">$email field</option>
+          <label class={labels} for="email">Email Field</label>
+          <select id="email" bind:value={emailAlias} class={selector}>
+            <option disabled selected value="">$email</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -167,19 +172,14 @@
     <div class="flex flex-col space-y-4 ml-10 mr-10">
       <div class="flex flex-row space-x-4">
         <div>
-          <label for="groupKey">Group Key Field</label>
-          <select id="groupKey" bind:value={groupKeyAlias} bind:this={groupKeyEl} class={selector} required>
-            <option disabled selected value="">$group_key field</option>
-            {#each colHeaders as header}
-              <option value={header}>{header}</option>
-            {/each}
-          </select>
+          <label class={labels} for="groupKey">Group Key Field</label>
+          <input id="groupKey" bind:value={groupKeyAlias} placeholder="write a value" class={writeIn} required />
         </div>
 
         <div>
-          <label for="groupId">Group Id Field</label>
-          <select id="groupId" bind:value={groupIdAlias} bind:this={groupIdEl} class={selector} required>
-            <option disabled selected value="">$group_id field</option>
+          <label class={labels} for="groupId">Group Id Field</label>
+          <select id="groupId" bind:value={groupIdAlias} class={selector} required>
+            <option disabled selected value="">$group_id</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -188,9 +188,9 @@
       </div>
       <div class="flex flex-row space-x-4">
         <div>
-          <label for="name">Name Field</label>
-          <select id="name" bind:value={nameAlias} bind:this={nameEl} class={selector}>
-            <option disabled selected value="">$name field</option>
+          <label class={labels} for="name">Name Field</label>
+          <select id="name" bind:value={nameAlias} class={selector}>
+            <option disabled selected value="">$name</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -198,9 +198,9 @@
         </div>
 
         <div>
-          <label for="email">Email Field</label>
-          <select id="email" bind:value={emailAlias} bind:this={emailEl} class={selector}>
-            <option disabled selected value="">$email field</option>
+          <label class={labels} for="email">Email Field</label>
+          <select id="email" bind:value={emailAlias} class={selector}>
+            <option disabled selected value="">$email</option>
             {#each colHeaders as header}
               <option value={header}>{header}</option>
             {/each}
@@ -214,5 +214,6 @@
 <style>
   select:required {
     opacity: 1;
+    border: "green";
   }
 </style>

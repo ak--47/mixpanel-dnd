@@ -1,14 +1,16 @@
 <script>
+  // COMPONENTS
   import Dropzone from "svelte-file-dropzone/Dropzone.svelte";
-  import { format as formatStore, files as filesStore, dataSnippet as dataSnippetStore } from "../store.js";
+  import { format as formatStore, files as filesStore, dataSnippet as dataSnippetStore, currentFile } from "../store.js";
   import { bytesHuman, comma } from "ak-tools";
   import { parser, readFile } from "../utils.js";
 
-  const tableRow = `bg-white border-b opacity-50 hover:opacity-100`;
+  // STATE
   let files = [];
   let format;
   let filePickerEl;
 
+  //   METHODS
   async function handleDrop(e) {
     const { acceptedFiles } = e.detail;
     files = [...acceptedFiles, ...files];
@@ -23,7 +25,7 @@
 
       //read each file
       for (const file of files) {
-        const data = await readFile(file);
+        const data = await readFile(file); //todo replace with streaming?
         file.lines = data?.split("\n")?.length || "not known";
         const store = {
           name: file.name,
@@ -33,6 +35,7 @@
           data: parser(data, format),
         };
         dataSnippetStore.set(store);
+        currentFile.set(file.name);
       }
       filesStore.update((currentFiles) => [...currentFiles, ...files]);
       files = [];
@@ -43,6 +46,14 @@
     filesStore.update((currentFiles) => []);
     return true;
   }
+
+  function handleSwitchToTransform(e) {
+	//todo: make it easy to select the file you are working on
+  }
+
+  //   CSS
+  const tableRow = `bg-white border-b opacity-50 hover:opacity-100`;
+  const dropzoneCSS = `bg-mpWhite w-full h-full rounded text-center flex justify-center items-center border-2 border-mpPurple border-dashed hover:border-mpOrange`;
 </script>
 
 <!-- DROPZONE -->
@@ -53,21 +64,21 @@
   <Dropzone
     accept=".csv, .txt, .json, .ndjson, .jsonl, .txt, .tsv"
     on:drop={handleDrop}
-    containerClasses="bg-mpWhite w-full h-full rounded text-center flex justify-center items-center border-2 border-mpPurple border-dashed hover:border-mpOrange"
+    containerClasses={dropzoneCSS}
     inputElement={filePickerEl}
     disableDefaultStyles
-    name="dropzone"><p>drag and drop (or <button>click and browse</button>)</p></Dropzone
+    name="dropzone"><p>drag and drop ANY plain text file (or <button>click and browse</button>)</p></Dropzone
   >
 </div>
 
 <!-- FILE DETAILS -->
 {#if $filesStore && $filesStore.length > 0}
   <div class="ml-6">
-    <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetFiles}>Clear</button>
+    <button class="btn_clear" on:click={resetFiles}>Clear</button>
   </div>
   <div class="title ml-6 pt-4 text-mpGray">File Details</div>
 
-  <div class="relative shadow-md sm:rounded-lg ml-10 mt-5 p-10 px-5 py-5 w-2/3 pb-11 mb-11 bg-white">
+  <div class="flex shadow-md sm:rounded-lg ml-10 mt-5 p-10 px-5 py-5 mr-36 pb-11 mb-11 bg-white">
     <table class="w-full text-sm text-left text-mpGray table-sm">
       <thead class="text-mpPurple text-base">
         <tr>
@@ -84,9 +95,10 @@
             <td class="px-6 py-1.5">{bytesHuman(file.size)}</td>
             <td class="px-6 py-1.5">{file.name.split(".").pop()}</td>
             <td class="px-6 py-1.5">{comma(file.lines || 0)}</td>
-            <!-- <td class="px-6 py-4"><button class="btn">transform</button></td> -->
+            <!-- <td class="px-6 py-1.5">
+              <button on:click={handleSwitchToTransform} class="btn p-2 bg-mpGray border-mpGray hover:bg-mpPurple hover:border-mpPurple"> transform </button>
+            </td> -->            
           </tr>
-          <!-- <li class="text-mpGreen text-xs"> : </li> -->
         {/each}
       </tbody>
     </table>

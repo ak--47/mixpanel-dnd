@@ -7,11 +7,16 @@ export const region = writable('US');
 export const format = writable('json');
 export const dataType = writable('');
 export const files = writable([]);
-export const aliases = writable({});
+
 export const transformType = writable('');
+export const currentFile = writable('');
 
 /**
  * @type {import('svelte/store').Writable<{[key: string]: any}>}
  * @example { name: 'foo.csv', size: 123, lines: 234, format; "csv", data: [{},{},{}]}
  **/
 export const dataSnippet = writable({});
+
+
+/** @type {import('svelte/store').Writable<{[key: string]: any}>} */
+export const aliases = writable({});

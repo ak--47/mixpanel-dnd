@@ -85,8 +85,8 @@
 </div>
 
 <div class="ml-6 flex flex-row space-x-2 mt-5">
-  <button class="rounded-lg btn btn-primary w-fit bg-mpPurple border-mpPurple" on:click={verifyCreds}>Verify</button>
-  <button class="rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray hover:bg-mpRed hover:border-mpRed" on:click={resetCreds}>Clear</button>
+  <button class="btn_go" on:click={verifyCreds}>Verify</button>
+  <button class="btn_clear" on:click={resetCreds}>Clear</button>
 </div>
 
 <p id="status" class="mt-3 ml-6">{status}</p>

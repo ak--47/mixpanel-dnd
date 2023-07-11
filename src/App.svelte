@@ -1,9 +1,7 @@
 <script>
+  // COMPONENTS
   import Ping from "./views/components/Ping.svelte";
-
-  //   VIEWS
   import Nav from "./views/Nav.svelte";
-  import Project from "./views/components/Project.svelte";
   import Upload from "./views/Upload.svelte";
   import Transform from "./views/Transform.svelte";
   import Load from "./views/Load.svelte";
@@ -11,7 +9,7 @@
 
   let viewOrder = ["upload", "transform", "load"];
 
-  //   simple view router
+  // ROUTER
   let currentView;
   view.subscribe((value) => {
     if (value) {
@@ -26,20 +24,21 @@
     currentView = "upload";
   }
 
+  //methods
   function forward() {
-	let currentIndex = viewOrder.indexOf(currentView);
-	if (currentIndex < viewOrder.length - 1) {
-	  view.set(viewOrder[currentIndex + 1]);
-	  currentView = viewOrder[currentIndex + 1];
-	}
+    let currentIndex = viewOrder.indexOf(currentView);
+    if (currentIndex < viewOrder.length - 1) {
+      view.set(viewOrder[currentIndex + 1]);
+      currentView = viewOrder[currentIndex + 1];
+    }
   }
 
   function back() {
-	let currentIndex = viewOrder.indexOf(currentView);
-	if (currentIndex > 0) {
-	  view.set(viewOrder[currentIndex - 1]);
-	  currentView = viewOrder[currentIndex - 1];
-	}
+    let currentIndex = viewOrder.indexOf(currentView);
+    if (currentIndex > 0) {
+      view.set(viewOrder[currentIndex - 1]);
+      currentView = viewOrder[currentIndex - 1];
+    }
   }
 </script>
 

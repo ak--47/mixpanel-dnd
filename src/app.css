@@ -2,27 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn_go {
+  @apply rounded-lg btn btn-primary w-fit bg-mpPurple border-mpPurple;
+}
+
+.btn_go:hover {
+  @apply drop-shadow-lg;
+}
+
+.btn_clear {
+  @apply rounded-lg btn btn-secondary w-fit bg-mpGray border-mpGray;
+}
+
+.btn_clear:hover {
+  @apply bg-mpRed border-mpRed;
+}
 
 * {
-	font-family: "Apercu Pro", "Helvetica Neue", Helvetica, Tahoma, Geneva,
-      Arial, sans-serif;
-    font-feature-settings: normal;
-    font-kerning: auto;
-    font-optical-sizing: auto;
-	font-style: normal;
-    font-variant-alternates: normal;
-    font-variant-caps: normal;
-    font-variant-east-asian: normal;
-    font-variant-ligatures: none;
-    font-variant-numeric: normal;
-    font-variation-settings: normal;
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
+  font-family: "Apercu Pro", "Helvetica Neue", Helvetica, Tahoma, Geneva, Arial, sans-serif;
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: none;
+  font-variant-numeric: normal;
+  font-variation-settings: normal;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-	background-color: rgb(233, 233, 233);
-	height: 100vh;
-	width: 100vw;
-	overflow: hidden;
+  background-color: rgb(233, 233, 233);
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
