@@ -5,11 +5,13 @@ import path from "path";
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");
+const root = path.resolve(__dirname, "dist")
+console.log(root)
 
 // import bunyan from "bunyan";
 // const log = bunyan.createLogger({name: "mixpanel-dnd", level: "info"});
 const app = Fastify({
-	logger: process.env.NODE_ENV === 'dev' ? true : false,
+	logger: true //process.env.NODE_ENV === 'dev' ? true : false,
 });
 
 // COMPONENTS
@@ -17,7 +19,7 @@ import verifyCreds from "./components/verifyCreds.js";
 import loadData from "./components/loadData.js";
 
 // STATIC ASSETS
-app.register(fastifyStatic, { root: path.resolve(__dirname, "dist") });
+app.register(fastifyStatic, { root  });
 app.register(fastifyMultipart);
 
 // API ROUTES
