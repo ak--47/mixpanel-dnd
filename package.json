@@ -1,32 +1,45 @@
 {
-  "name": "mixpanel-dnd",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "server-dev": "nodemon --watch ./server/ ./server/server.js | pino-pretty",
-    "build": "vite build",
-    "preview": "vite preview",
-    "server": "node ./server/server.js"
-  },
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.4",
-    "autoprefixer": "^10.4.14",
-    "daisyui": "^3.1.7",
-    "nodemon": "^2.0.22",
-    "postcss": "^8.4.24",
-    "svelte": "^3.58.0",
-    "tailwindcss": "^3.3.2",
-    "vite": "^4.3.9"
-  },
-  "dependencies": {
-    "@fastify/static": "^6.10.2",
-    "ak-tools": "^1.0.43",
-    "bunyan": "^1.8.15",
-    "fastify": "^4.19.0",
-    "got": "^13.0.0",
-    "papaparse": "^5.4.1",
-    "svelte-file-dropzone": "^2.0.1"
-  }
+	"name": "mixpanel-dnd",
+	"description": "drag, drop, and map files into mixpanel (ETL style)",
+	"private": false,
+	"version": "0.0.1",
+	"type": "module",
+	"author": {
+		"name": "AK",
+		"email": "ak@mixpanel.com"
+	},
+	"bin": {
+		"mixpanel-dnd": "./cli.js"
+	},
+	"scripts": {
+		"dev": "vite",
+		"server-dev": "NODE_ENV=dev nodemon --watch ./server/ -i ./server/tmp ./server/server.js | pino-pretty",
+		"build": "vite build",
+		"preview": "vite preview",
+		"cli": "NODE_ENV=local node ./cli.js",
+		"prune": "rm -rf ./server/tmp/*",
+		"post": "npm publish"
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^2.0.4",
+		"autoprefixer": "^10.4.14",
+		"daisyui": "^3.1.7",
+		"nodemon": "^2.0.22",
+		"postcss": "^8.4.24",
+		"svelte": "^3.58.0",
+		"tailwindcss": "^3.3.2",
+		"vite": "^4.3.9"
+	},
+	"dependencies": {
+		"@fastify/multipart": "^7.7.0",
+		"@fastify/static": "^6.10.2",
+		"ak-tools": "^1.0.43",
+		"bunyan": "^1.8.15",
+		"es-main": "^1.2.0",
+		"fastify": "^4.19.2",
+		"got": "^13.0.0",
+		"mixpanel-import": "^2.3.43",
+		"papaparse": "^5.4.1",
+		"svelte-file-dropzone": "^2.0.1"
+	}
 }

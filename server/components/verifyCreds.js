@@ -1,5 +1,5 @@
 import got from 'got';
-//todo missing REGION!
+
 
 async function verifyTokenAndSecret(creds = {}) {
 	const { token = '', secret = '', region = "US" } = creds;

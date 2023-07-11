@@ -6,7 +6,7 @@
   let eventNameAlias = $aliases?.event || "";
   let distinctIdAlias = $aliases?.distinct_id || "";
   let timeAlias = $aliases?.time || "";
-  let insertIdAlias = $aliases?.insert_id || "";
+  let insertIdAlias = $aliases?.$insert_id || "";
   let nameAlias = $aliases?.name || "";
   let emailAlias = $aliases?.email || "";
   let createdAtAlias = $aliases?.createdAt || "";
@@ -30,24 +30,24 @@
       obj.event = eventNameAlias || "";
       obj.distinct_id = distinctIdAlias || "";
       obj.time = timeAlias || "";
-      obj.insert_id = insertIdAlias || "";
+      obj.$insert_id = insertIdAlias || "";
     }
     if ($dataType === "user") {
-      obj.distinct_id = distinctIdAlias || "";
-      obj.name = nameAlias || "";
-      obj.email = emailAlias || "";
-      obj.created_at = createdAtAlias || "";
+      obj.$distinct_id = distinctIdAlias || "";
+      obj.$name = nameAlias || "";
+      obj.$email = emailAlias || "";
+      obj.$created_at = createdAtAlias || "";
     }
     if ($dataType === "group") {
-      obj.name = nameAlias || "";
-      obj.email = emailAlias || "";
-      obj.group_id = groupIdAlias || "";
-      obj.group_key = groupKeyAlias || "";
+      obj.$name = nameAlias || "";
+      obj.$email = emailAlias || "";
+      obj.$group_id = groupIdAlias || "";
+      obj.$group_key = groupKeyAlias || "";
     } else {
       obj.event = eventNameAlias || "";
       obj.distinct_id = distinctIdAlias || "";
       obj.time = timeAlias || "";
-      obj.insert_id = insertIdAlias || "";
+      obj.$insert_id = insertIdAlias || "";
     }
 
     return obj;

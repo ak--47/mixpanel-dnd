@@ -1,17 +1,20 @@
 import Fastify from "fastify";
 import { fastifyStatic } from "@fastify/static";
+import { fastifyMultipart } from "@fastify/multipart";
 import path from "path";
 // import bunyan from "bunyan";
 // const log = bunyan.createLogger({name: "mixpanel-dnd", level: "info"});
 const app = Fastify({
-	logger: true,
+	logger: process.env.NODE_ENV === 'local' ? false : true,
 });
 
 // COMPONENTS
 import verifyCreds from "./components/verifyCreds.js";
+import loadData from "./components/loadData.js";
 
 // STATIC ASSETS
 app.register(fastifyStatic, { root: path.resolve("./dist") });
+app.register(fastifyMultipart);
 
 // API ROUTES
 app.route({
@@ -25,11 +28,41 @@ app.route({
 app.route({
 	method: ['POST'],
 	url: '/verify',
-	handler: async (request, reply) => {		
+	handler: async (request, reply) => {
 		const result = await verifyCreds(request.body);
 		reply.send({ status: result });
 	}
-})
+});
+
+app.route({
+	method: ['POST'],
+	url: '/load',
+	handler: async (request, reply) => {
+		const limits = {
+			fieldNameSize: Infinity, // Max field name size in bytes
+			fieldSize: Infinity,     // Max field value size in bytes
+			fields: Infinity,         // Max number of non-file fields
+			fileSize: Infinity,  // For multipart forms, the max file size in bytes
+			files: Infinity,           // Max number of file fields
+			headerPairs: Infinity,  // Max number of header key=>value pairs
+			parts: Infinity         // For multipart forms, the max number of parts (fields + files)
+		};
+		const config = JSON.parse(request.headers['x-job-configuration']);
+		const files = await request.saveRequestFiles({
+			tmpdir: './server/tmp', preservePaths: false, limits
+		});
+		const results = [];
+
+		for await (const file of files) {
+			const result = await loadData(file, config);
+			results.push(result);
+		}
+
+		reply.send({ results });
+	}
+});
+
+
 
 
 /**
@@ -45,7 +78,8 @@ async function start() {
 		process.exit(1);
 	}
 }
-
-start();
+if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
+	start();
+}
 
 export default start;

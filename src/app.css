@@ -40,3 +40,7 @@ body {
   width: 100vw;
   overflow-x: hidden;
 }
+
+:root, [data-theme] {
+	background-color: rgb(233, 233, 233);
+}

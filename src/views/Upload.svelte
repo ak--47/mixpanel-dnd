@@ -27,10 +27,12 @@
       for (const file of files) {
         const data = await readFile(file); //todo replace with streaming?
         file.lines = data?.split("\n")?.length || "not known";
+		
         const store = {
           name: file.name,
           size: file.size,
           lines: file.lines,
+		  target: file,
           format,
           data: parser(data, format),
         };
