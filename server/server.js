@@ -2,10 +2,14 @@ import Fastify from "fastify";
 import { fastifyStatic } from "@fastify/static";
 import { fastifyMultipart } from "@fastify/multipart";
 import path from "path";
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.resolve(path.dirname(__filename), "..");
+
 // import bunyan from "bunyan";
 // const log = bunyan.createLogger({name: "mixpanel-dnd", level: "info"});
 const app = Fastify({
-	logger: process.env.NODE_ENV === 'local' ? false : true,
+	logger: process.env.NODE_ENV === 'dev' ? true : false,
 });
 
 // COMPONENTS
@@ -13,7 +17,7 @@ import verifyCreds from "./components/verifyCreds.js";
 import loadData from "./components/loadData.js";
 
 // STATIC ASSETS
-app.register(fastifyStatic, { root: path.resolve("./dist") });
+app.register(fastifyStatic, { root: path.resolve(__dirname, "dist") });
 app.register(fastifyMultipart);
 
 // API ROUTES
@@ -77,6 +81,7 @@ async function start() {
 		app.log.error(err);
 		process.exit(1);
 	}
+	return app;
 }
 if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
 	start();
