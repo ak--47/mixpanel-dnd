@@ -6,12 +6,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");
 const root = path.resolve(__dirname, "dist")
-console.log(root)
+// console.log(root)
 
 // import bunyan from "bunyan";
 // const log = bunyan.createLogger({name: "mixpanel-dnd", level: "info"});
 const app = Fastify({
-	logger: true //process.env.NODE_ENV === 'dev' ? true : false,
+	logger: process.env.NODE_ENV === 'dev' ? true : false,
 });
 
 // COMPONENTS
