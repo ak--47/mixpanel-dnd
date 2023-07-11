@@ -15,6 +15,8 @@ dist-ssr
 server/tmp
 !server/tmp/.gitkeep
 .env
+tests/testData/
+!tests/testData/.gitkeep
 
 # Editor directories and files
 .vscode/*
