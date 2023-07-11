@@ -12,10 +12,10 @@ dist
 dist-ssr
 *.local
 
-server/tmp
+server/tmp/*
 !server/tmp/.gitkeep
 .env
-tests/testData/
+tests/testData/*
 !tests/testData/.gitkeep
 
 # Editor directories and files
