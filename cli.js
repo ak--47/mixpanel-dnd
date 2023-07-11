@@ -4,22 +4,14 @@ import server from './server/server.js';
 
 async function main() {
 	server()
-	console.log('app is alive! visit:')
-	console.log('http://localhost:3000/')
+	console.log('disclaimer: this product is alpha\n\n')
+	console.log('app is alive! visit...\n')
+	console.log('\thttp://localhost:3000/\n')
+	console.log('\n...when finished press CTRL+C to kill the local server')
 }
 
 export default main;
 
 if (esMain(import.meta)) {
 	main()
-		// .then(() => {
-		// 	console.log(`\n\nhooray! all done!\n\n`);
-		// }).catch((e) => {
-		// 	console.log(`\n\nuh oh! something didn't work...\nthe error message is:\n\n\t${e.message}\n\n@\n\n${e.stack}\n\n`);
-
-		// }).finally(() => {
-		// 	console.log('\n\nhave a great day!\n\n');
-		// 	process.exit(0);
-		// });
-
 }
