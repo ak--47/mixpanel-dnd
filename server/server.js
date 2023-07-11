@@ -5,7 +5,6 @@ import path from "path";
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");
-const root = path.resolve(__dirname, "dist")
 // console.log(root)
 
 // import bunyan from "bunyan";
@@ -19,7 +18,7 @@ import verifyCreds from "./components/verifyCreds.js";
 import loadData from "./components/loadData.js";
 
 // STATIC ASSETS
-app.register(fastifyStatic, { root  });
+app.register(fastifyStatic, { root:  path.resolve(__dirname, "dist")  });
 app.register(fastifyMultipart);
 
 // API ROUTES
@@ -55,7 +54,7 @@ app.route({
 		};
 		const config = JSON.parse(request.headers['x-job-configuration']);
 		const files = await request.saveRequestFiles({
-			tmpdir: './server/tmp', preservePaths: false, limits
+			tmpdir:  path.resolve(__dirname, "server/tmp/"), preservePaths: false, limits
 		});
 		const results = [];
 
