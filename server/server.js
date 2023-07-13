@@ -82,8 +82,8 @@ async function start() {
 		app.log.error(err);
 		if (process.env.NODE_ENV !== 'prod') {
 			console.log('YIKES!\nwe failed to start the server... this is probably due to port 3000 being in use. message is:\n');
-			console.log(e?.message || e);
-			console.log('\nplease free up port 3000 and try again.\n\nhint: you can try\nnpx --yes kill-port 3000\n\n');
+			console.log(err?.message || err);
+			console.log('\n\nplease free up port 3000 and try again.\n\nhint: you can try\nnpx --yes kill-port 3000\n\n');
 			process.exit(1);
 		}
 	}
