@@ -28,12 +28,7 @@ async function main() {
 export default main;
 
 if (esMain(import.meta)) {
-	main().catch((e) => {
-		console.log('YIKES!\nwe failed to start the server... this is probably due to port 3000 being in use. message is:\n');
-		console.log(e?.message || e);
-		console.log('\nplease free up port 3000 and try again.\n\nhint: you can try\nnpx --yes kill-port 3000\n\n');
-		process.exit(1);
-	});
+	main();
 }
 
 const hero = `
