@@ -10,9 +10,11 @@
     transformType as transformTypeStore,
   } from "../store.js";
   import Project from "./components/Project.svelte";
+  import Loader from "./components/Loader.svelte";
   import { truncate, comma, bytesHuman } from "ak-tools";
 
   let jobResult = null;
+  let loading = false;
   //   METHODS
 
   function getConfig() {
@@ -86,6 +88,44 @@
   const tableHead = `px-6 py-4 font-medium text-gray-900 whitespace-nowrap`;
 </script>
 
+{#if loading}
+<div id="loader" class="fixed inset-0 w-screen h-screen bg-mpBlack bg-opacity-100 flex items-center justify-center z-50">
+  <div class="w-[42%]">
+    <Loader />
+  </div>
+</div>
+{/if}
+
+{#if jobResult?.length > 0}
+  <div class="title ml-6 pt-4 text-mpGray">Results</div>
+  <div class="w-2/3 flex">
+    <div class="bg-white shadow-md rounded my-6">
+      <table class="min-w-max w-full table-auto">
+        <thead>
+          <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <!-- Generate table headers -->
+
+            {#each Object.keys(jobResult[0]) as key}
+              <th class="py-3 px-6 text-left">{key}</th>
+            {/each}
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light">
+          <!-- Generate table rows -->
+          {#each jobResult as item (item.id)}
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+              <!-- Generate table cells -->
+              {#each Object.values(item) as value}
+                <td class="py-3 px-6 text-left whitespace-nowrap">{value}</td>
+              {/each}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{/if}
+
 <Project />
 <div class="title ml-6 pt-4 text-mpGray">Data Loader</div>
 <div class="flex justify-center flex-col pt-5 p-10 space-y-4">
@@ -135,38 +175,10 @@
 <button
   class="btn_go"
   on:click={async () => {
+	loading = true;
     const job = await handleUpload();
     jobResult = cullResults(job.results);
     console.log(job);
+	loading = false;
   }}>🚀 Fire the Missiles!</button
 >
-
-{#if jobResult}
-  <div class="title ml-6 pt-4 text-mpGray">Results</div>
-  <div class="w-2/3">
-    <div class="bg-white shadow-md rounded my-6">
-      <table class="min-w-max w-full table-auto">
-        <thead>
-          <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-            <!-- Generate table headers -->
-
-            {#each Object.keys(jobResult[0]) as key}
-              <th class="py-3 px-6 text-left">{key}</th>
-            {/each}
-          </tr>
-        </thead>
-        <tbody class="text-gray-600 text-sm font-light">
-          <!-- Generate table rows -->
-          {#each jobResult as item (item.id)}
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <!-- Generate table cells -->
-              {#each Object.values(item) as value}
-                <td class="py-3 px-6 text-left whitespace-nowrap">{value}</td>
-              {/each}
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
-  </div>
-{/if}

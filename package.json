@@ -2,7 +2,7 @@
 	"name": "mixpanel-dnd",
 	"description": "drag, drop, and map files into mixpanel (ETL style)",
 	"private": false,
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"type": "module",
 	"author": {
 		"name": "AK",
@@ -19,7 +19,8 @@
 		"cli": "NODE_ENV=local node ./cli.js",
 		"prune": "rm -rf ./server/tmp/*",
 		"post": "npm publish",
-		"test": "JEST_PUPPETEER_CONFIG=./tests/puppeteer.cjs node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --config ./tests/jest.config.mjs"
+		"test": "JEST_PUPPETEER_CONFIG=./tests/puppeteer.cjs node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --config ./tests/jest.config.mjs",
+		"kill": "npx --yes kill-port 3000"
 	},
 	"devDependencies": {
 		"@sveltejs/vite-plugin-svelte": "^2.0.4",
@@ -38,6 +39,7 @@
 	"dependencies": {
 		"@fastify/multipart": "^7.7.0",
 		"@fastify/static": "^6.10.2",
+		"@lottiefiles/svelte-lottie-player": "^0.3.0",
 		"ak-tools": "^1.0.43",
 		"bunyan": "^1.8.15",
 		"es-main": "^1.2.0",

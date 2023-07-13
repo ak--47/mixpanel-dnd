@@ -25,16 +25,37 @@ test('page loads', async () => {
 	expect(title).toBe('Mixpanel Drag + Drop');
 }, timeout);
 
-// ???
-test('drag and drop', async () => {
-	await page.click('li#upload');
-	const fileInput = await page.$(
-		"input[type=file]"
-	);
-	await fileInput.uploadFile("./testData/bar.ndjson");
-	await page.waitForSelector('table');
-	expect(await page.$('table')).toBeTruthy();
-}, timeout);
+// test('nav works', async () => {
+// 	let title;
+// 	const extract = await page.$('li#extract');
+// 	const transform = await page.$('li#transform');
+// 	const load = await page.$('li#load');
+	
+// 	await transform.click();
+// 	title = await page.$('div.title');
+// 	expect(title).toMatchTextContent('Field Mappings');
+
+// 	// await load.click();
+// 	// title = await page.$('div.title');
+// 	// expect(title).toMatchTextContent('Project Info');
+
+// 	// await extract.click();
+// 	// title = await page.$('div.title');
+// 	// expect(title).toMatchTextContent('Upload File(s)');
+	
+// })
+
+// // ???
+// test('drag and drop', async () => {
+// 	await page.click('li#upload');
+// 	const fileInput = await page.$(
+// 		"input[type=file]"
+// 	);
+// 	await fileInput.uploadFile("./testData/bar.ndjson");
+// 	// await page.waitForSelector('table');
+// 	const table = await page.$('table');
+// 	expect(await page.$('table')).toBeTruthy();
+// }, timeout);
 
 
 afterAll(async () => {

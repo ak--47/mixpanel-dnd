@@ -61,7 +61,7 @@
 <!-- DROPZONE -->
 <!-- ? https://github.com/thecodejack/svelte-file-dropzone -->
 <div class="title ml-6 pt-4 text-mpGray">Upload File(s)</div>
-<div class="flex justify-center flex-col ml-6 mr-36 p-10 px-5 py-5 space-y-4 h-52 text-center">
+<div class="m-auto mt-12 h-52 w-3/5 text-center">
   <input bind:this={filePickerEl} type="file" name="file_upload" class="hidden" multiple bind:files on:change={handleUpdate} />
   <Dropzone
     accept=".csv, .txt, .json, .ndjson, .jsonl, .txt, .tsv"

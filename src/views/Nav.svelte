@@ -22,7 +22,7 @@
     </a>
 
     <ul class="flex flex-row ml-4 items-start">
-      <li id="upload">
+      <li id="extract">
         <a href={"#"} class={navItemStyle} on:click={setView}>Extract</a>
       </li>
 

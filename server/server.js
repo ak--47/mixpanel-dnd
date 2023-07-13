@@ -18,7 +18,7 @@ import verifyCreds from "./components/verifyCreds.js";
 import loadData from "./components/loadData.js";
 
 // STATIC ASSETS
-app.register(fastifyStatic, { root:  path.resolve(__dirname, "dist")  });
+app.register(fastifyStatic, { root: path.resolve(__dirname, "dist") });
 app.register(fastifyMultipart);
 
 // API ROUTES
@@ -54,7 +54,7 @@ app.route({
 		};
 		const config = JSON.parse(request.headers['x-job-configuration']);
 		const files = await request.saveRequestFiles({
-			tmpdir:  path.resolve(__dirname, "server/tmp/"), preservePaths: false, limits
+			tmpdir: path.resolve(__dirname, "server/tmp/"), preservePaths: false, limits
 		});
 		const results = [];
 

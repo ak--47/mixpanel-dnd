@@ -2,8 +2,9 @@
 module.exports = {
 	launch: {
 		headless: 'new',
-		devtools: true,
+		devtools: false,
 		dumpio: false,
+		// slowMo: 1000,
 		// debuggingPort: 1337,
 		
 	},

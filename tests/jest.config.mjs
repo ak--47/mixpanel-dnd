@@ -7,5 +7,6 @@ export default {
 		"**/tests/**/*.test.js"
 	],
 	verbose: true
+
 	
 };
