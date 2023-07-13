@@ -33,6 +33,7 @@ async function main(file, config) {
 		compress: true,
 		fixData: true,
 		abridged: false,
+		strict: false
 	};
 
 	const job = await mp(creds, filePath, options, false, false);
